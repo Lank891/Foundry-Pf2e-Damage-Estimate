@@ -1,2 +1,2 @@
-# Foundry-Pf2e-Damage-Estimate
-Quick estimate of damage range when rolling.
+# Foundry Pf2e Damage Estimate
+A quick estimate of damage range when rolling.

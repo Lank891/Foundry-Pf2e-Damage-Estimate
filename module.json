@@ -1,0 +1,45 @@
+{
+  "id": "pf2e-damage-estimate",
+  "title": "Pf2e Damage Estimate",
+  "description": "A quick estimate of damage range when rolling.",
+  "license": "https://github.com/Lank891/Foundry-Pf2e-Damage-Estimate/blob/main/LICENSE",
+  "readme": "https://github.com/Lank891/Foundry-Pf2e-Damage-Estimate/blob/main/README.md",
+  "bugs": "https://github.com/Lank891/Foundry-Pf2e-Damage-Estimate/issues",
+  "author": "Lank",
+  "authors": [
+	{
+	  "name": "Lank",
+	  "discord": "lank891",
+	  "email": "h99_10@o2.pl",
+	  "flags": {}
+	}
+  ],
+  "version": "1.0.0",
+  "compatibility": {
+		"minimum": "11",
+		"verified": "11.315"
+  },
+  "relationships": {
+	"systems": [
+	  {
+		"id": "pf2e",
+		"type": "system",
+		"manifest": "https://github.com/foundryvtt/pf2e/releases/download/latest/system.json",
+		"compatibility": {
+		  "minimum": "5.15.0",
+		  "verified": "5.15.0"
+		}
+	  }
+	]
+  },
+  "scripts": [
+	"scripts/damage-estimate-main.js"
+  ],
+  "styles": [
+  ],
+  "languages": [
+  ],
+  "url": "",
+  "manifest": "",
+  "download": ""
+}

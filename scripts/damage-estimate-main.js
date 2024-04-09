@@ -97,7 +97,7 @@ function calculate(expr) {
 	return calculate_helper(Array.from(expr), 0);
 }
 
-// From https://medium.com/@tommypang04/a-simple-calculator-that-evaluates-elementary-arithmetic-expressions-with-javascript-bca12de61aea
+// Based on https://medium.com/@tommypang04/a-simple-calculator-that-evaluates-elementary-arithmetic-expressions-with-javascript-bca12de61aea
 function calculate_helper(s, idx) {
 	var stk = [];
 	let sign = '+';

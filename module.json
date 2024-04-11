@@ -32,8 +32,8 @@
 	  }
 	]
   },
-  "scripts": [
-	"scripts/damage-estimate-main.js"
+  "esmodules": [
+	  "./scripts/damage-estimate-main.mjs"
   ],
   "styles": [
   ],

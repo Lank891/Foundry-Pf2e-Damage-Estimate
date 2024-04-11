@@ -80,9 +80,9 @@ function getDamage(data) {
 }
 
 function getEstimateHtmlString(damage) {
-	let innerDamageString = damage.min + "~" + damage.max;
+	let innerDamageString = ((damage.min+damage.max)/2) + " (" + damage.min + "~" + damage.max + ")";
 	if (damage.persistent) {
-		innerDamageString += " + " + damage.minPersistent + "~" + damage.maxPersistent + " " + persistentDamageName;
+		innerDamageString += " + " ((damage.minPersistent+damage.maxPersistent)/2) + " (" + damage.minPersistent + "~" + damage.maxPersistent + ") " + persistentDamageName;
 	}
 
 	const hrBeforeSpanString = "<hr style=\"width:80%;opacity:0.5\">"

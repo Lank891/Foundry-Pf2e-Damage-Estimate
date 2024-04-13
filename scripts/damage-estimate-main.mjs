@@ -1,8 +1,16 @@
 const moduleId = 'pf2e-damage-estimate';
-const persistentDamageName = "<i class=\"fa-duotone fa-hourglass icon\">";
+
 const persistentDamageIcon = "fa-hourglass";
+const persistentDamageSuffix = "<i class=\"fa-duotone " + persistentDamageIcon + "\">";
 
 const onlyGmSetting = 'onlyGmSetting'
+const estimateTypeSetting = "estimateTypeSetting";
+const ESTIMATE_TYPE = {
+	NONE: 0,
+	ONLY_AVERAGE: 1,
+	ONLY_RANGE: 2,
+	AVERAGE_AND_RANGE: 3
+};
 Hooks.on('init', () => {
 	game.settings.register(moduleId, onlyGmSetting, {
 		name: 'Only GM',
@@ -13,10 +21,30 @@ Hooks.on('init', () => {
 		default: false
 	});
 	
+	game.settings.register(moduleId, estimateTypeSetting, {
+		name: 'Estimate type',
+		hint: 'Estimate might be globally disabled by GM.',
+		scope: 'client',
+		config: true,
+		type: Number,
+		choices: {
+			[ESTIMATE_TYPE.NONE]: "Estimate disabled",
+			[ESTIMATE_TYPE.ONLY_AVERAGE]: "Show only average damage",
+			[ESTIMATE_TYPE.ONLY_RANGE]: "Show only damage range",
+			[ESTIMATE_TYPE.AVERAGE_AND_RANGE]: "Show average damage and damage range"
+		},
+		default: ESTIMATE_TYPE.AVERAGE_AND_RANGE
+	})
 });
 
 Hooks.on('renderDamageModifierDialog', (dialogInfo, init, data) => {
+	// Not a GM but only GM can see the estimate
 	if(game.settings.get(moduleId, onlyGmSetting) && !isLoggedUserGamemaster()) {
+		return;
+	}
+
+	// Estimate is locally disabled
+	if(game.settings.get(moduleId, estimateTypeSetting) === ESTIMATE_TYPE.NONE) {
 		return;
 	}
 		
@@ -97,15 +125,32 @@ function getDamage(data) {
 }
 
 function getEstimateHtmlString(damage) {
-	let innerDamageString = ((damage.min+damage.max)/2) + " (" + damage.min + "~" + damage.max + ")";
+	const stringType = game.settings.get(moduleId, estimateTypeSetting);
+
+	let innerDamageString = getDamageString(damage.min, damage.max, stringType);
 	if (damage.persistent) {
-		innerDamageString += " + " + ((damage.minPersistent + damage.maxPersistent)/2) + " (" + damage.minPersistent + "~" + damage.maxPersistent + ") " + persistentDamageName;
+		innerDamageString += " + " + getDamageString(damage.minPersistent, damage.maxPersistent, stringType) + " " + persistentDamageSuffix;
 	}
 
-	const hrBeforeSpanString = "<hr style=\"width:80%;opacity:0.5\">"
-	const spanString = "<span class=\"damage instance color\">" + innerDamageString + "</span>"
+	const hrBeforeSpanString = "<hr style=\"width:80%; opacity:0.5\">";
+	const spanString = "<span class=\"damage instance color\">" + innerDamageString + "</span>";
 	
 	return hrBeforeSpanString + spanString;
+}
+
+function getDamageString(minDamage, maxDamage, stringType) {
+	const avgDamage = Math.round( (minDamage + maxDamage) / 2 * 10 ) / 10;
+
+	if(stringType == ESTIMATE_TYPE.ONLY_AVERAGE) {
+		return avgDamage.toString();
+	}
+
+	if(stringType == ESTIMATE_TYPE.ONLY_RANGE) {
+		return minDamage + "~" + maxDamage;
+	}
+
+	// stringType == ESTIMATE_TYPE.AVERAGE_AND_RANGE or unexpected options
+	return avgDamage + " (" + minDamage + "~" + maxDamage + ")";
 }
 
 

@@ -1,5 +1,5 @@
 const moduleId = 'pf2e-damage-estimate';
-const persistentDamageName = "Persistent";
+const persistentDamageName = "<i class=\"fa-duotone fa-hourglass icon\">";
 const persistentDamageIcon = "fa-hourglass";
 
 Hooks.on('renderDamageModifierDialog', (dialogInfo, init, data) => {
@@ -82,7 +82,7 @@ function getDamage(data) {
 function getEstimateHtmlString(damage) {
 	let innerDamageString = ((damage.min+damage.max)/2) + " (" + damage.min + "~" + damage.max + ")";
 	if (damage.persistent) {
-		innerDamageString += " + " ((damage.minPersistent+damage.maxPersistent)/2) + " (" + damage.minPersistent + "~" + damage.maxPersistent + ") " + persistentDamageName;
+		innerDamageString += " + " + ((damage.minPersistent + damage.maxPersistent)/2) + " (" + damage.minPersistent + "~" + damage.maxPersistent + ") " + persistentDamageName;
 	}
 
 	const hrBeforeSpanString = "<hr style=\"width:80%;opacity:0.5\">"

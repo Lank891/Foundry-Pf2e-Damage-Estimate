@@ -2,7 +2,24 @@ const moduleId = 'pf2e-damage-estimate';
 const persistentDamageName = "<i class=\"fa-duotone fa-hourglass icon\">";
 const persistentDamageIcon = "fa-hourglass";
 
+const onlyGmSetting = 'onlyGmSetting'
+Hooks.on('init', () => {
+	game.settings.register(moduleId, onlyGmSetting, {
+		name: 'Only GM',
+		hint: 'If true, only the GM will see the estimated damage. Otherwise, all players will see it.',
+		scope: 'world',
+		config: true,
+		type: Boolean,
+		default: false
+	});
+	
+});
+
 Hooks.on('renderDamageModifierDialog', (dialogInfo, init, data) => {
+	if(game.settings.get(moduleId, onlyGmSetting) && !isLoggedUserGamemaster()) {
+		return;
+	}
+		
 	const appId = data.appId;
 	const dialog = document.querySelector('div#' + appId);
 	
@@ -97,6 +114,9 @@ function calculate(expr) {
 	return calculate_helper(Array.from(expr), 0);
 }
 
+function isLoggedUserGamemaster() {
+	return !!game.users.get(game.userId).isGM;
+}
 // Based on https://medium.com/@tommypang04/a-simple-calculator-that-evaluates-elementary-arithmetic-expressions-with-javascript-bca12de61aea
 function calculate_helper(s, idx) {
 	var stk = [];

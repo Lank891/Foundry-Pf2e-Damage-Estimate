@@ -3,6 +3,9 @@ const moduleId = 'pf2e-damage-estimate';
 const persistentDamageIcon = "fa-hourglass";
 const persistentDamageSuffix = "<i class=\"fa-duotone " + persistentDamageIcon + "\">";
 
+const precisionDamageClassName = "precision";
+const precisionDamageIcon = "fa-crosshairs";
+
 const onlyGmSetting = 'onlyGmSetting'
 const estimateTypeSetting = "estimateTypeSetting";
 const ESTIMATE_TYPE = {
@@ -66,7 +69,28 @@ Hooks.on('renderDamageModifierDialog', (dialogInfo, init, data) => {
 
 const dieRegex = /(\d+)d(\d+)/g;
 function getDamage(data) {
-	const formula = data.formula;
+	let formula = data.formula;
+
+	// Remove precision damage related tags
+	let formulaDiv = document.createElement('div');
+	formulaDiv.innerHTML = formula;
+	
+	let precisionSpans = formulaDiv.querySelectorAll(`span.${precisionDamageClassName}`);
+	precisionSpans.forEach(span => {
+		const spanInnerHTML = span.innerHTML;
+		const spanOuterHTML = span.outerHTML;
+		console.info(spanInnerHTML);
+		console.info(spanOuterHTML);
+		formulaDiv.innerHTML = formulaDiv.innerHTML.replace(spanOuterHTML, spanInnerHTML);
+	})
+
+	let precisionIcons = formulaDiv.querySelectorAll(`i.${precisionDamageIcon}`);
+	precisionIcons.forEach(icon => icon.remove());
+
+	formula = formulaDiv.innerHTML;
+	formulaDiv.remove();
+	//--
+
 	const splittedFormula = formula.split('</span>');
 
 	const extractedFormulas = splittedFormula.map((singleFormula) => {

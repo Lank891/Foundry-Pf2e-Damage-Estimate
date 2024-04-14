@@ -1,13 +1,13 @@
 const moduleId = 'pf2e-damage-estimate';
 
-const persistentDamageIcon = "fa-hourglass";
-const persistentDamageSuffix = "<i class=\"fa-duotone " + persistentDamageIcon + "\">";
+const persistentDamageIcon = 'fa-hourglass';
+const persistentDamageSuffix = `<i class="fa-duotone ${persistentDamageIcon}">`;
 
-const precisionDamageClassName = "precision";
-const precisionDamageIcon = "fa-crosshairs";
+const precisionDamageClassName = 'precision';
+const precisionDamageIcon = 'fa-crosshairs';
 
 const onlyGmSetting = 'onlyGmSetting'
-const estimateTypeSetting = "estimateTypeSetting";
+const estimateTypeSetting = 'estimateTypeSetting';
 const ESTIMATE_TYPE = {
 	NONE: 0,
 	ONLY_AVERAGE: 1,
@@ -31,10 +31,10 @@ Hooks.on('init', () => {
 		config: true,
 		type: Number,
 		choices: {
-			[ESTIMATE_TYPE.NONE]: "Estimate disabled",
-			[ESTIMATE_TYPE.ONLY_AVERAGE]: "Show only average damage",
-			[ESTIMATE_TYPE.ONLY_RANGE]: "Show only damage range",
-			[ESTIMATE_TYPE.AVERAGE_AND_RANGE]: "Show average damage and damage range"
+			[ESTIMATE_TYPE.NONE]: 'Estimate disabled',
+			[ESTIMATE_TYPE.ONLY_AVERAGE]: 'Show only average damage',
+			[ESTIMATE_TYPE.ONLY_RANGE]: 'Show only damage range',
+			[ESTIMATE_TYPE.AVERAGE_AND_RANGE]: 'Show average damage and damage range'
 		},
 		default: ESTIMATE_TYPE.AVERAGE_AND_RANGE
 	})
@@ -57,7 +57,7 @@ Hooks.on('renderDamageModifierDialog', (dialogInfo, init, data) => {
 	// Since window is too small, we have to make it bigger; its height is in px so we just expand it
 	let dialogHeightInPx = parseInt(dialog.style.height);
 	dialogHeightInPx += 44;
-	dialog.style.height = dialogHeightInPx + "px";
+	dialog.style.height = dialogHeightInPx + 'px';
 	
 	const formulaButton = dialog.querySelector('button.roll');
 	
@@ -79,8 +79,6 @@ function getDamage(data) {
 	precisionSpans.forEach(span => {
 		const spanInnerHTML = span.innerHTML;
 		const spanOuterHTML = span.outerHTML;
-		console.info(spanInnerHTML);
-		console.info(spanOuterHTML);
 		formulaDiv.innerHTML = formulaDiv.innerHTML.replace(spanOuterHTML, spanInnerHTML);
 	})
 
@@ -101,8 +99,8 @@ function getDamage(data) {
 			return undefined;
 
 		const extractedFormula = singleFormula.substring(endOfFirstTag + 1, startOfSecondTag).trim();
-		const minDamageFormula = extractedFormula.replace(dieRegex, "($1)");
-		const maxDamageFormula = extractedFormula.replace(dieRegex, "($1 * $2)");
+		const minDamageFormula = extractedFormula.replace(dieRegex, '($1)');
+		const maxDamageFormula = extractedFormula.replace(dieRegex, '($1 * $2)');
 		const isPersistent = singleFormula.includes(persistentDamageIcon);
 
 		return {
@@ -153,11 +151,11 @@ function getEstimateHtmlString(damage) {
 
 	let innerDamageString = getDamageString(damage.min, damage.max, stringType);
 	if (damage.persistent) {
-		innerDamageString += " + " + getDamageString(damage.minPersistent, damage.maxPersistent, stringType) + " " + persistentDamageSuffix;
+		innerDamageString += ` + ${getDamageString(damage.minPersistent, damage.maxPersistent, stringType)} ${persistentDamageSuffix}`;
 	}
 
-	const hrBeforeSpanString = "<hr style=\"width:80%; opacity:0.5\">";
-	const spanString = "<span class=\"damage instance color\">" + innerDamageString + "</span>";
+	const hrBeforeSpanString = `<hr style="width:80%; opacity:0.5">`;
+	const spanString = `<span class="damage instance color">${innerDamageString}</span>`;
 	
 	return hrBeforeSpanString + spanString;
 }
@@ -170,11 +168,11 @@ function getDamageString(minDamage, maxDamage, stringType) {
 	}
 
 	if(stringType == ESTIMATE_TYPE.ONLY_RANGE) {
-		return minDamage + "~" + maxDamage;
+		return `${minDamage}~${maxDamage}`;
 	}
 
 	// stringType == ESTIMATE_TYPE.AVERAGE_AND_RANGE or unexpected options
-	return avgDamage + " (" + minDamage + "~" + maxDamage + ")";
+	return `${avgDamage} (${minDamage}~${maxDamage})`;
 }
 
 

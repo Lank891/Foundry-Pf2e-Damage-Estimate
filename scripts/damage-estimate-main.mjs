@@ -93,10 +93,13 @@ function getDamage(data) {
 
 	const extractedFormulas = splittedFormula.map((singleFormula) => {
 		const endOfFirstTag = singleFormula.indexOf('>');
-		const startOfSecondTag = singleFormula.indexOf('<', endOfFirstTag + 1);
+		let startOfSecondTag = singleFormula.indexOf('<', endOfFirstTag + 1);
 
-		if(endOfFirstTag === -1 || startOfSecondTag === -1)
+		if(endOfFirstTag === -1)
 			return undefined;
+
+		if(startOfSecondTag === -1)
+			startOfSecondTag = singleFormula.length; // Untyped damage don't have second tag
 
 		const extractedFormula = singleFormula.substring(endOfFirstTag + 1, startOfSecondTag).trim();
 		const minDamageFormula = extractedFormula.replace(dieRegex, '($1)');

@@ -1,6 +1,7 @@
 const moduleId = 'pf2e-damage-estimate';
 
 const persistentDamageIcon = 'fa-hourglass';
+const bleedDamageIcon = 'fa-droplet';
 const persistentDamageSuffix = `<i class="fa-duotone ${persistentDamageIcon}">`;
 
 const precisionDamageClassName = 'precision';
@@ -104,7 +105,7 @@ function getDamage(data) {
 		const extractedFormula = singleFormula.substring(endOfFirstTag + 1, startOfSecondTag).trim();
 		const minDamageFormula = extractedFormula.replace(dieRegex, '($1)');
 		const maxDamageFormula = extractedFormula.replace(dieRegex, '($1 * $2)');
-		const isPersistent = singleFormula.includes(persistentDamageIcon);
+		const isPersistent = singleFormula.includes(persistentDamageIcon) || singleFormula.includes(bleedDamageIcon);
 
 		return {
 			formula: extractedFormula,

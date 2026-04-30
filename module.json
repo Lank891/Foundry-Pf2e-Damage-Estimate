@@ -1,33 +1,33 @@
 {
   "id": "pf2e-damage-estimate",
   "title": "Pf2e Damage Estimate",
-  "description": "<p>A quick estimate of damage range when rolling.</p>",
+  "description": "A quick estimate of damage range when rolling.",
   "license": "https://github.com/Lank891/Foundry-Pf2e-Damage-Estimate/blob/main/LICENSE",
   "readme": "https://github.com/Lank891/Foundry-Pf2e-Damage-Estimate/blob/main/README.md",
   "bugs": "https://github.com/Lank891/Foundry-Pf2e-Damage-Estimate/issues",
   "authors": [
-    {
-      "name": "Lank",
-      "discord": "lank891",
-      "email": "h99_10@o2.pl",
-      "flags": {}
-    }
+	{
+	  "name": "Lank",
+	  "discord": "lank891",
+	  "email": "h99_10@o2.pl"
+	}
   ],
   "version": "1.2.0",
   "compatibility": {
-    "minimum": "14",
-    "verified": "14.360"
+		"minimum": "14",
+		"verified": "14.360"
   },
   "relationships": {
-    "systems": [
-      {
-        "id": "pf2e",
-        "type": "system",
-        "compatibility": {
-          "minimum": "8.0.0",
-          "verified": "8.0.3"
-        }
-      },
+	"systems": [
+	  {
+		"id": "pf2e",
+		"type": "system",
+		"manifest": "https://github.com/foundryvtt/pf2e/releases/download/latest/system.json",
+		"compatibility": {
+		  "minimum": "8.0.0",
+		  "verified": "8.0.3"
+		}
+	  },
       {
         "id": "sf2e",
         "type": "system",
@@ -36,11 +36,16 @@
           "verified": "1.0.3"
         }
       }
-    ]
+	]
   },
   "esmodules": [
-    "scripts/damage-estimate-main.mjs"
+	  "./scripts/damage-estimate-main.mjs"
   ],
+  "styles": [
+  ],
+  "languages": [
+  ],
+  "url": "",
   "manifest": "",
-  "flags": {}
+  "download": ""
 }

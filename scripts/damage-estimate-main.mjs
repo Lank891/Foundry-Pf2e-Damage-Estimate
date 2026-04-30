@@ -60,7 +60,7 @@ Hooks.on('renderDamageModifierDialog', (dialogInfo, init, data) => {
 	dialogHeightInPx += 44;
 	dialog.style.height = dialogHeightInPx + 'px';
 	
-	const formulaButton = dialog.querySelector('button.roll');
+	const formulaButton = dialog.querySelector('button[type="submit"]');
 	
 	const damage = getDamage(data);
 	const appendString = getEstimateHtmlString(damage);
